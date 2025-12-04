@@ -6,27 +6,42 @@
 
 #### 1.1.1 User 모델 (`server/models/User.js`)
 
+**사용 목적:**
+사용자 인증 정보(회원가입, 로그인)를 저장하는 핵심 모델입니다. 사용자명, 이메일, 비밀번호를 관리하며, 비밀번호는 bcrypt로 해싱되어 저장됩니다. UserInfo 모델과 분리하여 인증 정보와 개인 정보를 구분합니다. 회원가입(`POST /api/auth/signup`)과 로그인(`POST /api/auth/login`) API에서 사용됩니다.
+
 **스키마 구조:**
 ```javascript
 {
-  username: String,        // 사용자명 (3-20자, unique, required)
-  email: String,           // 이메일 (unique, required, lowercase)
+  username: String,        // 사용자명 (3-20자, unique, required, trim)
+  email: String,           // 이메일 (unique, required, lowercase, 정규식 검증)
   password: String,        // 비밀번호 (해시됨, 6자 이상, required)
-  createdAt: Date,        // 생성일시 (자동)
-  updatedAt: Date          // 수정일시 (자동)
+  createdAt: Date,        // 생성일시 (자동, timestamps 옵션)
+  updatedAt: Date          // 수정일시 (자동, timestamps 옵션)
 }
 ```
 
 **인덱스:**
-- `email`: 1 (unique)
-- `username`: 1 (unique)
+- `email`: 1 (unique) - 로그인 시 빠른 조회를 위한 인덱스
+- `username`: 1 (unique) - 사용자명 중복 확인을 위한 인덱스
 
 **메서드:**
-- `comparePassword(candidatePassword)`: 비밀번호 비교
-- `toJSON()`: 비밀번호 제외한 사용자 정보 반환
+- `comparePassword(candidatePassword)`: 
+  - 평문 비밀번호와 해시된 비밀번호를 비교하는 메서드
+  - bcrypt.compare()를 사용하여 안전하게 비교
+  - 로그인 시 비밀번호 확인에 사용
+- `toJSON()`: 
+  - 사용자 정보를 JSON으로 변환할 때 비밀번호를 자동으로 제외
+  - API 응답에서 비밀번호가 노출되지 않도록 보호
 
 **미들웨어:**
-- `pre('save')`: 비밀번호 저장 전 bcrypt 해싱 (salt rounds: 10)
+- `pre('save')`: 
+  - 문서 저장 전에 실행되는 미들웨어
+  - 비밀번호가 변경된 경우에만 bcrypt로 해싱 (salt rounds: 10)
+  - 비밀번호가 변경되지 않았다면 해싱을 건너뛰어 성능 최적화
+
+**사용 위치:**
+- `POST /api/auth/signup`: 회원가입 시 새 사용자 생성
+- `POST /api/auth/login`: 로그인 시 사용자 조회 및 비밀번호 확인
 
 ---
 
@@ -199,6 +214,15 @@
 }
 ```
 
+**참고사항:**
+- **외부 API 의존성**: 공공데이터포털 API(`getLunCalInfo`)를 사용하므로, API 서버 상태에 따라 응답 시간이 달라질 수 있습니다.
+- **순차 처리**: 두 사용자의 사주 정보를 순차적으로 조회합니다 (API 호출 제한 고려). 병렬 처리 시 API 제한에 걸릴 수 있습니다.
+- **응답 형식**: XML 또는 JSON 응답을 자동으로 감지하여 처리합니다. XML 응답은 `xml2js`로 파싱됩니다.
+- **타임아웃**: API 호출 타임아웃은 10초로 설정되어 있습니다. 타임아웃 발생 시 에러를 반환합니다.
+- **간지 정보**: `ganji` 필드는 한자만 포함하고, `ganjiFull` 필드는 "기묘(己卯)" 형식의 전체 정보를 포함합니다.
+- **에러 처리**: 간지 정보가 부족하거나 API 오류가 발생하면 기본값을 반환하거나 에러 메시지를 반환합니다.
+- **API 키**: `PUBLIC_DATA_API_KEY` 환경 변수가 필요하며, 없으면 기본값을 사용합니다.
+
 **POST `/api/fortune/calculate`**
 ```javascript
 // 요청
@@ -231,6 +255,15 @@
 }
 ```
 
+**참고사항:**
+- **AI 분석 통합**: 궁합 계산 시 OpenAI API를 사용하여 각 지표별 상세 분석을 자동으로 생성합니다. AI 분석이 실패하면 기본 분석을 사용합니다.
+- **간지 파싱**: `parseGanjiToPillars()` 함수로 공공데이터포털 API 응답을 `SajuCompatibility` 클래스가 사용할 수 있는 형식으로 변환합니다.
+- **8개 지표 계산**: `SajuCompatibility` 클래스의 `getRadarData()` 메서드로 8개 지표 점수를 계산합니다.
+- **종합 점수**: 가중치를 적용하여 종합 점수를 계산하며, 갈등 점수가 40점 미만이면 과락 로직으로 감점됩니다.
+- **AI 프롬프트**: 사용자 이름을 반드시 사용하도록 프롬프트에 명시되어 있으며, "사용자1", "사용자2" 같은 일반적인 표현은 금지됩니다.
+- **JSON 파싱**: AI 응답이 JSON 형식이 아니거나 파싱에 실패하면 기본 분석을 반환합니다.
+- **응답 시간**: AI 분석 생성에 시간이 걸릴 수 있으므로, 클라이언트에서 적절한 로딩 처리가 필요합니다.
+
 ---
 
 #### 1.2.3 AI 채팅 API
@@ -259,6 +292,17 @@
   }
 }
 ```
+
+**참고사항:**
+- **OpenAI API 키 필요**: `OPENAI_API_KEY` 환경 변수가 반드시 설정되어 있어야 합니다. 없으면 500 에러를 반환합니다.
+- **대화 기록 관리**: `conversationHistory` 배열에 이전 대화 기록을 포함하면 컨텍스트를 유지한 채팅이 가능합니다. 빈 배열이면 단일 메시지로 처리됩니다.
+- **메시지 형식 변환**: 클라이언트에서 전달한 대화 기록을 OpenAI 메시지 형식(`role`, `content`)으로 자동 변환합니다.
+- **토큰 사용량**: 응답에 `usage` 객체가 포함되어 프롬프트 토큰, 완성 토큰, 총 토큰 수를 확인할 수 있습니다. 비용 관리에 유용합니다.
+- **모델 설정**: `OPENAI_MODEL` 환경 변수로 모델을 변경할 수 있으며, 기본값은 `gpt-4o-mini`입니다.
+- **Temperature 설정**: `0.7`로 설정되어 있어 창의적이면서도 일관된 응답을 생성합니다. 낮추면 더 일관된 응답, 높이면 더 창의적인 응답을 얻을 수 있습니다.
+- **최대 토큰 수**: `max_tokens: 1000`으로 제한되어 있어 긴 응답은 잘릴 수 있습니다. 필요에 따라 조정 가능합니다.
+- **에러 처리**: OpenAI API 오류 시 상세한 에러 정보를 로그에 출력하며, 개발 환경에서만 상세 정보를 클라이언트에 반환합니다.
+- **AIAdvicePage 연동**: `AIAdvicePage`에서 이 API를 사용하며, 상세 분석 정보를 시스템 프롬프트에 포함하여 더 정확한 답변을 생성합니다.
 
 ---
 
