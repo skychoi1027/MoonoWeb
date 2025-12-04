@@ -13,20 +13,43 @@ function SignUpPage() {
     confirmPassword: '',
   });
   const [error, setError] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
     setError(''); // 입력 시 에러 메시지 초기화
+    
+    // 이메일 형식 검증
+    if (name === 'email') {
+      if (value && !validateEmail(value)) {
+        setEmailError('이메일 형식에 맞지 않습니다');
+      } else {
+        setEmailError('');
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
+
+    // 이메일 형식 검증
+    if (!validateEmail(formData.email)) {
+      setEmailError('이메일 형식에 맞지 않습니다');
+      setIsLoading(false);
+      return;
+    }
 
     // 비밀번호 확인
     if (formData.password !== formData.confirmPassword) {
@@ -79,7 +102,9 @@ function SignUpPage() {
               value={formData.email}
               onChange={handleChange}
               required
+              className={emailError ? 'error-input' : ''}
             />
+            {emailError && <div className="field-error-message">{emailError}</div>}
           </div>
           <div className="form-group">
             <label>비밀번호</label>

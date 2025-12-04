@@ -21,7 +21,10 @@ export const sendChatMessage = async (message, conversationHistory = []) => {
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.error || 'API 호출 실패');
+      const errorMessage = error.error || 'API 호출 실패';
+      const errorDetails = error.message ? `: ${error.message}` : '';
+      console.error('서버 에러 응답:', error);
+      throw new Error(errorMessage + errorDetails);
     }
 
     const data = await response.json();

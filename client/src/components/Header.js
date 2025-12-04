@@ -15,7 +15,7 @@ function Header() {
     <header className="app-header">
       <div className="header-left">
         <button className="home-button" onClick={() => navigate('/home')}>
-          🏠 홈
+          🐙 홈
         </button>
         <div className="logo" onClick={() => navigate('/home')}>
           궁합문어

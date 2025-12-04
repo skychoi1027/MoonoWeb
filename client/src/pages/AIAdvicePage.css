@@ -13,8 +13,8 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.05) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(231, 76, 60, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(169, 50, 38, 0.05) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -30,7 +30,7 @@
   text-align: center;
   font-size: 32px;
   font-weight: bold;
-  color: #667eea;
+  color: #E74C3C;
   margin-bottom: 40px;
 }
 
@@ -59,7 +59,7 @@
   width: 50px;
   height: 50px;
   border: 5px solid #f0f0f0;
-  border-top: 5px solid #667eea;
+  border-top: 5px solid #E74C3C;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -108,8 +108,8 @@
 
 .back-button {
   background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #E74C3C;
+  border: 2px solid #E74C3C;
 }
 
 .back-button:hover {
@@ -118,14 +118,14 @@
 }
 
 .home-button-bottom {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #E74C3C 0%, #A93226 100%);
   color: white;
   border: none;
 }
 
 .home-button-bottom:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 32px rgba(231, 76, 60, 0.3);
 }
 
 .detailed-analysis-table {
@@ -134,8 +134,8 @@
   -webkit-backdrop-filter: blur(10px);
   padding: 30px;
   border-radius: 20px;
-  border: 1px solid rgba(102, 126, 234, 0.2);
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  box-shadow: 0 8px 32px rgba(231, 76, 60, 0.1);
   margin-bottom: 30px;
   overflow-x: auto;
 }
@@ -143,7 +143,7 @@
 .table-title {
   font-size: 24px;
   font-weight: bold;
-  color: #667eea;
+  color: #E74C3C;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -156,7 +156,7 @@
 }
 
 .analysis-table thead {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #E74C3C 0%, #A93226 100%);
   color: white;
 }
 
@@ -187,7 +187,7 @@
 }
 
 .analysis-table tbody tr:hover {
-  background-color: rgba(102, 126, 234, 0.05);
+  background-color: rgba(231, 76, 60, 0.05);
 }
 
 .analysis-table tbody tr:last-child {
@@ -202,8 +202,8 @@
 .index-cell {
   text-align: center;
   font-weight: bold;
-  color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
+  color: #E74C3C;
+  background: rgba(231, 76, 60, 0.1);
 }
 
 .label-cell {
@@ -214,7 +214,7 @@
 .score-cell {
   text-align: center;
   font-weight: bold;
-  color: #667eea;
+  color: #E74C3C;
   font-size: 16px;
 }
 
@@ -229,8 +229,8 @@
   margin: 20px auto 0;
   padding: 10px 20px;
   background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #E74C3C;
+  border: 2px solid #E74C3C;
   border-radius: 20px;
   font-size: 14px;
   font-weight: 600;
@@ -239,7 +239,7 @@
 }
 
 .toggle-table-button:hover {
-  background: #667eea;
+  background: #E74C3C;
   color: white;
 }
 
@@ -251,10 +251,10 @@
 .advice-subtitle {
   font-size: 20px;
   font-weight: bold;
-  color: #667eea;
+  color: #E74C3C;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+  border-bottom: 2px solid rgba(231, 76, 60, 0.2);
 }
 
 @media (max-width: 768px) {
@@ -279,18 +279,18 @@
   -webkit-backdrop-filter: blur(10px);
   padding: 30px;
   border-radius: 20px;
-  border: 1px solid rgba(102, 126, 234, 0.2);
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  box-shadow: 0 8px 32px rgba(231, 76, 60, 0.1);
   margin-bottom: 30px;
 }
 
 .chat-title {
   font-size: 20px;
   font-weight: bold;
-  color: #667eea;
+  color: #E74C3C;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+  border-bottom: 2px solid rgba(231, 76, 60, 0.2);
 }
 
 .chat-messages {
@@ -302,7 +302,7 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border-radius: 15px;
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(231, 76, 60, 0.2);
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -329,19 +329,19 @@
 }
 
 .chat-message.user .message-content {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #E74C3C 0%, #A93226 100%);
   color: white;
   border-bottom-right-radius: 4px;
 }
 
 .chat-message.assistant .message-content {
-  background: rgba(102, 126, 234, 0.1);
+  background: rgba(231, 76, 60, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   color: #333;
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(231, 76, 60, 0.2);
   border-bottom-left-radius: 4px;
-  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 2px 10px rgba(231, 76, 60, 0.1);
 }
 
 .chat-message.error .message-content {
@@ -399,8 +399,8 @@
 }
 
 .chat-input:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #E74C3C;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
 }
 
 .chat-input:disabled {
@@ -410,7 +410,7 @@
 
 .chat-send-button {
   padding: 12px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #E74C3C 0%, #A93226 100%);
   color: white;
   border: none;
   border-radius: 24px;
@@ -422,7 +422,7 @@
 
 .chat-send-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 32px rgba(231, 76, 60, 0.3);
 }
 
 .chat-send-button:disabled {
@@ -435,16 +435,16 @@
 }
 
 .chat-messages::-webkit-scrollbar-track {
-  background: rgba(102, 126, 234, 0.1);
+  background: rgba(231, 76, 60, 0.1);
   border-radius: 4px;
 }
 
 .chat-messages::-webkit-scrollbar-thumb {
-  background: rgba(102, 126, 234, 0.3);
+  background: rgba(231, 76, 60, 0.3);
   border-radius: 4px;
 }
 
 .chat-messages::-webkit-scrollbar-thumb:hover {
-  background: rgba(102, 126, 234, 0.5);
+  background: rgba(231, 76, 60, 0.5);
 }
 

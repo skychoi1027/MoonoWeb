@@ -13,8 +13,8 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.05) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(231, 76, 60, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(169, 50, 38, 0.05) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -26,8 +26,8 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 20px;
-  border: 1px solid rgba(102, 126, 234, 0.2);
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  box-shadow: 0 8px 32px rgba(231, 76, 60, 0.1);
   position: relative;
   z-index: 1;
 }
@@ -36,7 +36,7 @@
   text-align: center;
   font-size: 32px;
   font-weight: bold;
-  color: #667eea;
+  color: #E74C3C;
   margin-bottom: 30px;
 }
 
@@ -74,12 +74,12 @@
 }
 
 .form-group input:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #E74C3C;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
 }
 
 .auth-submit-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #E74C3C 0%, #A93226 100%);
   color: white;
   border: none;
   padding: 14px;
@@ -93,7 +93,7 @@
 
 .auth-submit-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 32px rgba(231, 76, 60, 0.3);
 }
 
 .auth-link {
@@ -104,29 +104,41 @@
 }
 
 .auth-link span {
-  color: #667eea;
+  color: #E74C3C;
   font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
 }
 
 .auth-link span:hover {
-  color: #5568d3;
+  color: #C0392B;
 }
 
-.error-message {
-  background: #fee;
-  color: #c33;
-  padding: 12px 16px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  font-size: 14px;
-  border: 1px solid #fcc;
+.auth-container .error-message {
+  background: #f8d7da !important;
+  color: #721c24 !important;
+  padding: 12px 16px !important;
+  border-radius: 8px !important;
+  margin-bottom: 20px !important;
+  font-size: 14px !important;
+  border: 1px solid #f5c6cb !important;
 }
 
 .auth-submit-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+.error-input {
+  border-color: #E74C3C !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
+}
+
+.field-error-message {
+  color: #E74C3C;
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 500;
 }
 

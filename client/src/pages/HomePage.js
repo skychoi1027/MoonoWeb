@@ -9,13 +9,15 @@ function HomePage() {
     <div className="home-page">
       <Header />
       <div className="home-content">
-        <div className="home-logo">궁합문어</div>
-        <button 
-          className="compatibility-button"
-          onClick={() => navigate('/input')}
-        >
-          궁합 보기
-        </button>
+        <div className="home-card">
+          <div className="home-logo">궁합문어</div>
+          <button 
+            className="compatibility-button"
+            onClick={() => navigate('/input')}
+          >
+            궁합 보기
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -12,11 +12,13 @@ function UserInputPage() {
     name: '',
     birthDate: '',
     birthTime: '',
+    gender: '',
   });
   const [user2, setUser2] = useState({
     name: '',
     birthDate: '',
     birthTime: '',
+    gender: '',
   });
 
   const handleUser1Change = (e) => {
@@ -47,6 +49,7 @@ function UserInputPage() {
           name: result.data.name || '',
           birthDate: result.data.birthDate || '',
           birthTime: result.data.birthTime || '',
+          gender: result.data.gender || '',
         });
         alert('내 정보를 불러왔습니다!');
       } else {
@@ -113,6 +116,25 @@ function UserInputPage() {
                 onChange={handleUser1Change}
               />
             </div>
+            <div className="form-group">
+              <label>성별</label>
+              <div className="gender-buttons">
+                <button
+                  type="button"
+                  className={`gender-button ${user1.gender === 'male' ? 'active' : ''}`}
+                  onClick={() => setUser1({ ...user1, gender: 'male' })}
+                >
+                  남성
+                </button>
+                <button
+                  type="button"
+                  className={`gender-button ${user1.gender === 'female' ? 'active' : ''}`}
+                  onClick={() => setUser1({ ...user1, gender: 'female' })}
+                >
+                  여성
+                </button>
+              </div>
+            </div>
           </div>
 
           <div className="user-section">
@@ -145,6 +167,25 @@ function UserInputPage() {
                 value={user2.birthTime}
                 onChange={handleUser2Change}
               />
+            </div>
+            <div className="form-group">
+              <label>성별</label>
+              <div className="gender-buttons">
+                <button
+                  type="button"
+                  className={`gender-button ${user2.gender === 'male' ? 'active' : ''}`}
+                  onClick={() => setUser2({ ...user2, gender: 'male' })}
+                >
+                  남성
+                </button>
+                <button
+                  type="button"
+                  className={`gender-button ${user2.gender === 'female' ? 'active' : ''}`}
+                  onClick={() => setUser2({ ...user2, gender: 'female' })}
+                >
+                  여성
+                </button>
+              </div>
             </div>
           </div>
 

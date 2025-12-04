@@ -50,9 +50,21 @@ router.post('/chat', async (req, res) => {
 
   } catch (error) {
     console.error('OpenAI API 오류:', error);
+    console.error('에러 상세:', {
+      message: error.message,
+      status: error.status,
+      code: error.code,
+      type: error.type,
+      stack: error.stack
+    });
     res.status(500).json({ 
       error: 'AI 응답 생성 중 오류가 발생했습니다.',
-      message: error.message 
+      message: error.message,
+      details: process.env.NODE_ENV === 'development' ? {
+        status: error.status,
+        code: error.code,
+        type: error.type
+      } : undefined
     });
   }
 });

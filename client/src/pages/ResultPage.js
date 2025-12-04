@@ -99,13 +99,13 @@ function ResultPage() {
       {
         label: '궁합 지표',
         data: result.radarData || [70, 75, 80, 85, 90, 75, 70, 80],
-        backgroundColor: 'rgba(102, 126, 234, 0.2)',
-        borderColor: 'rgba(102, 126, 234, 1)',
+        backgroundColor: 'rgba(231, 76, 60, 0.2)',
+        borderColor: 'rgba(231, 76, 60, 1)',
         borderWidth: 2,
-        pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+        pointBackgroundColor: 'rgba(231, 76, 60, 1)',
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(102, 126, 234, 1)',
+        pointHoverBorderColor: 'rgba(231, 76, 60, 1)',
       },
     ],
   };
@@ -133,7 +133,7 @@ function ResultPage() {
           color: '#333'
         },
         grid: {
-          color: 'rgba(102, 126, 234, 0.2)'
+          color: 'rgba(231, 76, 60, 0.2)'
         },
         ticks: {
           color: '#666',
