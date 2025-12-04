@@ -25,7 +25,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/moonoweb'
 
 // 라우트
 app.use('/api/ai', require('./routes/ai'));
-app.use('/api/data', require('./routes/data'));
 app.use('/api/fortune', require('./routes/fortune'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));

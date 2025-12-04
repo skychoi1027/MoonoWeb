@@ -69,40 +69,5 @@ router.post('/chat', async (req, res) => {
   }
 });
 
-// 텍스트 완성 엔드포인트
-router.post('/complete', async (req, res) => {
-  try {
-    const { prompt, maxTokens = 500 } = req.body;
-
-    if (!prompt) {
-      return res.status(400).json({ error: '프롬프트가 필요합니다.' });
-    }
-
-    if (!process.env.OPENAI_API_KEY) {
-      return res.status(500).json({ error: 'OpenAI API 키가 설정되지 않았습니다.' });
-    }
-
-    const completion = await openai.completions.create({
-      model: process.env.OPENAI_COMPLETION_MODEL || 'text-davinci-003',
-      prompt: prompt,
-      max_tokens: maxTokens,
-      temperature: 0.7,
-    });
-
-    res.json({
-      success: true,
-      text: completion.choices[0].text,
-      usage: completion.usage
-    });
-
-  } catch (error) {
-    console.error('OpenAI API 오류:', error);
-    res.status(500).json({ 
-      error: '텍스트 완성 중 오류가 발생했습니다.',
-      message: error.message 
-    });
-  }
-});
-
 module.exports = router;
 
