@@ -54,9 +54,6 @@ cd server
 
 # 의존성 패키지 설치
 npm install
-
-# 환경 변수 파일 생성 (.env)
-# 아래 "환경 변수 설정" 섹션 참고
 ```
 
 ### 3. 클라이언트 설정
@@ -84,33 +81,6 @@ npm install
 
 ## ⚙️ 환경 변수 설정
 
-### 서버 환경 변수 (server/.env)
-
-`server` 디렉토리에 `.env` 파일을 생성하고 다음 변수들을 설정하세요:
-
-```env
-# 서버 포트 (기본값: 5000)
-PORT=5000
-
-# MongoDB 연결 URI
-# 로컬: mongodb://localhost:27017/moonoweb
-# Atlas: mongodb+srv://username:password@cluster.mongodb.net/moonoweb
-MONGODB_URI=mongodb://localhost:27017/moonoweb
-
-# OpenAI API 키 (필수)
-# https://platform.openai.com/api-keys 에서 발급
-OPENAI_API_KEY=your_openai_api_key_here
-
-# OpenAI 모델 (선택, 기본값: gpt-4o-mini)
-OPENAI_MODEL=gpt-4o-mini
-
-# 공공데이터포털 API 키 (선택, 기본값 제공됨)
-PUBLIC_DATA_API_KEY=your_public_data_api_key_here
-
-# 개발 모드 설정 (선택)
-NODE_ENV=development
-```
-
 ### 클라이언트 환경 변수 (client/.env)
 
 `client` 디렉토리에 `.env` 파일을 생성하고 다음 변수를 설정하세요:
@@ -119,6 +89,12 @@ NODE_ENV=development
 # 백엔드 API 서버 URL (기본값: http://localhost:5000)
 REACT_APP_API_URL=http://localhost:5000
 ```
+
+> 💡 **팁**: `client/.env.example` 파일을 복사하여 `.env` 파일을 만들 수 있습니다.
+> ```bash
+> cd client
+> cp .env.example .env
+> ```
 
 ## 💻 개발 모드 실행
 
@@ -170,36 +146,196 @@ NODE_ENV=production npm start
 
 ## 🔍 문제 해결
 
-### MongoDB 연결 실패
+### 백엔드 서버가 시작되지 않는 경우
 
-- MongoDB가 실행 중인지 확인하세요
-- `MONGODB_URI` 환경 변수가 올바른지 확인하세요
-- 방화벽 설정을 확인하세요 (MongoDB Atlas 사용 시)
-
-### OpenAI API 오류
-
-- `OPENAI_API_KEY`가 올바르게 설정되었는지 확인하세요
-- API 키에 충분한 크레딧이 있는지 확인하세요
-- API 키 권한을 확인하세요
-
-### 포트 충돌
-
-- 기본 포트(서버: 5000, 클라이언트: 3000)가 사용 중인 경우:
-  - 서버: `.env` 파일에서 `PORT` 변경
-  - 클라이언트: `PORT=3001 npm start` (또는 원하는 포트)
-
-### 의존성 설치 오류
-
+#### 1. 서버 실행 확인
 ```bash
-# node_modules 삭제 후 재설치
+cd server
+npm start
+```
+
+**문제 증상:**
+- `Error: Cannot find module 'xxx'` → 의존성 패키지 미설치
+- `EADDRINUSE: address already in use :::5000` → 포트 충돌
+- `MongoServerError: connect ECONNREFUSED` → MongoDB 연결 실패
+
+#### 2. 의존성 패키지 재설치
+```bash
+cd server
+# Windows (PowerShell)
+Remove-Item -Recurse -Force node_modules, package-lock.json
+npm install
+
+# Mac/Linux
 rm -rf node_modules package-lock.json
 npm install
 ```
 
-### CORS 오류
+#### 3. Node.js 버전 확인
+```bash
+node --version  # v14 이상 권장
+npm --version
+```
 
-- 서버의 `cors` 미들웨어가 올바르게 설정되어 있는지 확인하세요
-- 클라이언트의 `REACT_APP_API_URL`이 올바른지 확인하세요
+### MongoDB 연결 실패
+
+**증상:** `❌ MongoDB 연결 실패` 메시지가 표시됨
+
+**해결 방법:**
+
+1. **로컬 MongoDB 사용 시:**
+   ```bash
+   # MongoDB 서비스가 실행 중인지 확인
+   # Windows
+   Get-Service MongoDB
+   
+   # MongoDB 시작 (Windows)
+   net start MongoDB
+   
+   # Mac/Linux
+   sudo systemctl status mongod
+   sudo systemctl start mongod
+   ```
+
+2. **MongoDB Atlas 사용 시:**
+   - Atlas 대시보드에서 클러스터가 실행 중인지 확인
+   - IP 화이트리스트에 현재 IP 주소 추가
+   - 연결 문자열 확인 (username, password 포함)
+   - 방화벽 설정 확인
+
+3. **연결 테스트:**
+   ```bash
+   # MongoDB 연결 테스트
+   mongosh "mongodb://localhost:27017/moonoweb"
+   ```
+
+### OpenAI API 오류
+
+**증상:** 
+- `OpenAI API 키가 설정되지 않았습니다.`
+- `AI 응답 생성 중 오류가 발생했습니다.`
+
+**해결 방법:**
+
+1. **환경 변수 확인:**
+   - 서버 코드에서 `process.env.OPENAI_API_KEY`가 필요한데, 백엔드에 .env가 없다고 했으므로
+   - 코드에서 직접 설정하거나 다른 방법으로 API 키를 제공해야 함
+
+2. **API 키 유효성 확인:**
+   - [OpenAI Platform](https://platform.openai.com/api-keys)에서 API 키 상태 확인
+   - 크레딧 잔액 확인
+   - API 키 권한 확인
+
+3. **에러 로그 확인:**
+   ```bash
+   # 서버 콘솔에서 상세 에러 메시지 확인
+   # 개발 모드에서는 상세한 에러 정보가 표시됨
+   ```
+
+### 포트 충돌
+
+**증상:** `EADDRINUSE: address already in use :::5000`
+
+**해결 방법:**
+
+1. **포트 사용 중인 프로세스 확인:**
+   ```bash
+   # Windows
+   netstat -ano | findstr :5000
+   taskkill /PID [PID번호] /F
+   
+   # Mac/Linux
+   lsof -ti:5000
+   kill -9 [PID번호]
+   ```
+
+2. **다른 포트 사용:**
+   - 서버 코드에서 `PORT` 환경 변수 변경 불가능하므로
+   - 코드에서 기본 포트를 변경하거나
+   - 다른 포트를 사용하는 프로세스를 종료
+
+### API 엔드포인트 오류
+
+**증상:** 클라이언트에서 API 호출 시 404 또는 500 에러
+
+**해결 방법:**
+
+1. **서버가 실행 중인지 확인:**
+   ```bash
+   # 브라우저에서 확인
+   http://localhost:5000/
+   # 응답: {"message":"MoonoWeb API Server is running!"}
+   ```
+
+2. **라우트 확인:**
+   - `/api/ai/chat` - AI 채팅
+   - `/api/fortune/info` - 사주 정보
+   - `/api/fortune/calculate` - 궁합 계산
+   - `/api/auth/signup` - 회원가입
+   - `/api/auth/login` - 로그인
+
+3. **CORS 오류 확인:**
+   - 서버의 `cors` 미들웨어가 활성화되어 있는지 확인
+   - 클라이언트의 `REACT_APP_API_URL`이 올바른지 확인
+
+### 공공데이터포털 API 오류
+
+**증상:** 사주 정보 조회 실패
+
+**해결 방법:**
+
+1. **API 키 확인:**
+   - 코드에 기본 API 키가 하드코딩되어 있음
+   - 필요시 [공공데이터포털](https://www.data.go.kr)에서 새 API 키 발급
+
+2. **네트워크 확인:**
+   - 인터넷 연결 확인
+   - 방화벽 설정 확인
+   - API 서버 상태 확인
+
+### 일반적인 디버깅 방법
+
+1. **서버 로그 확인:**
+   ```bash
+   cd server
+   npm start
+   # 콘솔에 표시되는 모든 로그 확인
+   ```
+
+2. **개발 모드로 실행:**
+   ```bash
+   # 더 상세한 에러 메시지 확인
+   NODE_ENV=development npm start
+   ```
+
+3. **API 테스트:**
+   ```bash
+   # Postman 또는 curl로 API 테스트
+   curl http://localhost:5000/
+   curl -X POST http://localhost:5000/api/ai/chat \
+     -H "Content-Type: application/json" \
+     -d '{"message":"테스트"}'
+   ```
+
+### 클라이언트 연결 오류
+
+**증상:** 프론트엔드에서 백엔드에 연결할 수 없음
+
+**해결 방법:**
+
+1. **환경 변수 확인:**
+   ```bash
+   # client/.env 파일 확인
+   REACT_APP_API_URL=http://localhost:5000
+   ```
+
+2. **서버 실행 확인:**
+   - 백엔드 서버가 실행 중인지 확인
+   - 포트 번호가 일치하는지 확인
+
+3. **브라우저 콘솔 확인:**
+   - 개발자 도구(F12) → Console 탭
+   - Network 탭에서 API 요청 상태 확인
 
 ## 📝 주요 기능
 
